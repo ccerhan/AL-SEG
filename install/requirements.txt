@@ -1,0 +1,11 @@
+tqdm
+matplotlib
+seaborn
+pandas
+scikit-learn
+scikit-image
+jupyter
+notebook
+prettytable
+cityscapesscripts
+openmim

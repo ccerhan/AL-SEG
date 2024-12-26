@@ -1,0 +1,12 @@
+name: AL-SEG
+channels:
+  - pytorch
+  - nvidia
+dependencies:
+  - python=3.8
+  - pytorch=1.13.1
+  - torchvision=0.14.1
+  - pytorch-cuda=11.6
+  - pip
+  - pip:
+      - -r requirements.txt

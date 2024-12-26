@@ -1,0 +1,10 @@
+name: AL-SEG
+channels:
+  - pytorch
+dependencies:
+  - python=3.8
+  - pytorch=1.13.1
+  - torchvision=0.14.1
+  - pip
+  - pip:
+      - -r requirements.txt
