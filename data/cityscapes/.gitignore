@@ -1,0 +1,5 @@
+*
+!.gitignore
+!preprocess.py
+!download.sh
+!README.md

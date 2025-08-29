@@ -54,4 +54,3 @@ Thumbs.db
 # Custom
 .ipynb_checkpoints
 /logs*
-/data

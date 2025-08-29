@@ -1,0 +1,6 @@
+*
+!.gitignore
+!voc_aug.py
+!voc_merge.py
+!download.sh
+!README.md
