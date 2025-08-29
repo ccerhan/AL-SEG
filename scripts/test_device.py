@@ -38,8 +38,7 @@ def test_device(device, num_tests, batch_size):
     print(f"device '{device}' | batch_size {batch_size} | elapsed_time {elapsed_ms:.4f} ms")
 
 
-print("Inference tests with ResNet-50:")
-print()
+print("Inference tests with ResNet-50:\n")
 
 num_tests = 32
 for b in range(0, 5, 2):

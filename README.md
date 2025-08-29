@@ -2,7 +2,7 @@
 
 **AL-SEG** is an open-source active learning tool for semantic segmentation based on PyTorch. It is built on top of [mmsegmentation](https://github.com/open-mmlab/mmsegmentation), which provides extensive support for various datasets, pre-trained backbones, and state-of-the-art segmentation methods right out of the box.
 
-This repository contains the **official implementation** of the paper:
+This repository contains the **official implementation** of the mathod:
 **Conformal Risk Controlled Active Learning (CRC-AL)**, which has been recently submitted. The source code of this project will be publicly available once the paper is accepted.
 
 In addition to our proposed CRC-AL approach, this project also includes Python implementations of several **active learning algorithms** adapted for semantic segmentation outputs:
