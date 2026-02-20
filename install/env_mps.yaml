@@ -2,7 +2,7 @@ name: AL-SEG
 channels:
   - pytorch
 dependencies:
-  - python=3.8
+  - python=3.9
   - pytorch=1.13.1
   - torchvision=0.14.1
   - pip

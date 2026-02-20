@@ -53,5 +53,7 @@ Thumbs.db
 
 # Custom
 .ipynb_checkpoints
+.mypy_cache
 /logs*
 .vscode/
+__pycache__/

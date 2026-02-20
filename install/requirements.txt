@@ -1,11 +1,12 @@
-tqdm
 matplotlib
 seaborn
-pandas
+types-seaborn
+numpy>=1.23,<2
+opencv-python<4.12
 scikit-learn
 scikit-image
 jupyter
 notebook
 prettytable
 cityscapesscripts
-openmim 
+openmim

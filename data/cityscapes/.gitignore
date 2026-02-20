@@ -1,5 +1,5 @@
 *
 !.gitignore
-!preprocess.py
+!cityscapes.py
 !download.sh
 !README.md

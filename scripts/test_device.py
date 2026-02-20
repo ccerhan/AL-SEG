@@ -3,7 +3,6 @@ import platform
 import time
 import torch
 import torchvision
-from tqdm import tqdm
 
 
 has_gpu = torch.cuda.is_available()
@@ -28,11 +27,14 @@ print()
 
 def test_device(device, num_tests, batch_size):
     model = torchvision.models.resnet50().to(device)
+    print(f"Running {num_tests} iterations on '{device}' (batch_size={batch_size})...")
     start = time.time()
-    for _ in tqdm(range(num_tests)):
+    for i in range(num_tests):
         x = torch.rand(batch_size, 3, 224, 224, device=device)
         with torch.no_grad():
             model(x)
+        if (i + 1) % 8 == 0 or (i + 1) == num_tests:
+            print(f"  progress: {i + 1}/{num_tests}")
     stop = time.time()
     elapsed_ms = (stop - start) / num_tests * 1000
     print(f"device '{device}' | batch_size {batch_size} | elapsed_time {elapsed_ms:.4f} ms")

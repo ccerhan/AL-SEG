@@ -51,3 +51,148 @@ To confirm that your CUDA or MPS setup is functioning correctly and to run basic
 ```shell
 python scripts/test_device.py
 ```
+
+## Download Datasets ##
+
+### Cityscapes ###
+
+Cityscapes requires a registered account:
+https://www.cityscapes-dataset.com/downloads
+
+```shell
+cd data/cityscapes
+sh download.sh <USERNAME> <PASSWORD>
+```
+
+Prepare labels using the mmsegmentation converter:
+
+```shell
+# from data/cityscapes
+python cityscapes.py .
+```
+
+### PascalVOC2012 ###
+
+Download VOC 2012 and the Berkeley augmentation set:
+
+```shell
+cd data/VOCdevkit/VOC2012
+sh download.sh
+```
+
+Build segmentation augmentation splits:
+
+```shell
+# from data/VOCdevkit/VOC2012
+DEVKIT_PATH=../../VOCdevkit
+AUG_PATH=benchmark_RELEASE
+python voc_aug.py $DEVKIT_PATH $AUG_PATH
+python voc_merge.py $DEVKIT_PATH
+```
+
+## Training with Entire Dataset ##
+
+For full-dataset training, run `tools/train.py` without `--split`.
+The script will use the default training annotations defined in the config.
+
+If you are on Apple Silicon, enable MPS fallback first:
+
+```shell
+export PYTORCH_ENABLE_MPS_FALLBACK=1
+```
+
+### Example: Cityscapes ###
+
+```shell
+conda activate AL-SEG
+CONFIG=configs/_template_/deeplabv3_r18_cityscapes-344x688.py
+python tools/train.py $CONFIG --seed 42
+```
+
+### Example: Pascal VOC 2012 ###
+
+```shell
+conda activate AL-SEG
+CONFIG=configs/_template_/segformer_mit-b1_voc2012-480x480.py
+python tools/train.py $CONFIG --seed 42
+```
+
+### Optional Arguments ###
+
+```shell
+python tools/train.py $CONFIG \
+  --seed 42 \
+  --experiment-name FullTrain \
+  --work-dir ./logs \
+  --options train_cfg.max_epochs=100
+```
+
+- `--work-dir`: base directory for logs/checkpoints
+- `--experiment-name`: subdirectory name for this run
+- `--options`: override config values from CLI
+- `--use-single-thread`: set dataloader workers to 0 (useful for debugging or constrained systems)
+
+By default, outputs are saved under:
+`logs/<config_name>/<experiment_name>/`
+If `--seed` is set, an extra `seed_<seed>/` subdirectory is added.
+
+## Active Learning Experiments ##
+
+Use `tools/experiment.py` to run the full active-learning loop
+(query -> train -> repeat).
+
+Use a DAL config (`configs/*_dal-*.py`) because it already defines
+`experiment_cfg.init_samples`, `experiment_cfg.num_query`, and `experiment_cfg.num_cycles`.
+
+If you are on Apple Silicon, enable MPS fallback first:
+
+```shell
+export PYTORCH_ENABLE_MPS_FALLBACK=1
+```
+
+### 1) Run a Random baseline ###
+
+```shell
+conda activate AL-SEG
+CONFIG=configs/deeplabv3_r18_cityscapes-344x688_dal-300-150-6.py
+python tools/experiment.py $CONFIG --seed 42 --experiment-name Random
+```
+
+### 2) Run another strategy ###
+
+```shell
+conda activate AL-SEG
+CONFIG=configs/deeplabv3_r18_cityscapes-344x688_dal-300-150-6.py
+python tools/experiment.py $CONFIG \
+  --seed 42 \
+  --experiment-name Entropy \
+  --options query_cfg.type=Entropy
+```
+
+For non-random strategies, if a matching Random baseline exists at
+`logs/<config_name>/Random/seed_<seed>/`, the script automatically reuses
+the initial `query_0` and `train_0` state for fair comparison.
+
+### Optional Arguments ###
+
+```shell
+python tools/experiment.py $CONFIG \
+  --seed 42 \
+  --experiment-name Margin \
+  --work-dir ./logs \
+  --options query_cfg.type=Margin experiment_cfg.num_cycles=3 \
+  --init-query-dir <PATH_TO_QUERY_0_DIR> \
+  --init-train-dir <PATH_TO_TRAIN_0_DIR>
+```
+
+- `--work-dir`: base directory for logs/checkpoints
+- `--experiment-name`: strategy/run name (used in output directory)
+- `--options`: override config values from CLI
+- `--init-query-dir` and `--init-train-dir`: manually warm-start from an existing cycle-0 state
+- `--use-single-thread`: set dataloader workers to 0 (useful for debugging or constrained systems)
+
+Results are written under:
+`logs/<config_name>/<experiment_name>/<timestamp>/`
+If `--seed` is set, results go to:
+`logs/<config_name>/<experiment_name>/seed_<seed>/<timestamp>/`
+Each cycle creates `query_<k>/` and `train_<k>/` subdirectories.

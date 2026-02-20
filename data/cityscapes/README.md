@@ -10,7 +10,7 @@ sh download.sh <USERNAME> <PASSWORD>
 
 ### Prepare
 
-https://github.com/open-mmlab/mmsegmentation/blob/main/tools/dataset_converters/cityscapes.py
+The converter script is included in this repo: `data/cityscapes/cityscapes.py`.
 
 ```shell
 DATASET_PATH=../cityscapes
