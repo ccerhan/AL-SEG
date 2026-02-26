@@ -185,6 +185,17 @@ python tools/experiment.py $CONFIG \
   --options query_cfg.type=Entropy
 ```
 
+### 3) Run CRC-AL strategy (ConformalRisk) ###
+
+```shell
+conda activate AL-SEG
+CONFIG=configs/deeplabv3_r18_cityscapes-344x688_dal-300-150-6.py
+python tools/experiment.py $CONFIG \
+  --seed 42 \
+  --experiment-name CRC-AL \
+  --options query_cfg.type=ConformalRisk query_cfg.alpha=0.05 query_cfg.tau=0.5
+```
+
 For non-random strategies, if a matching Random baseline exists at
 `logs/<config_name>/Random/seed_<seed>/`, the script automatically reuses
 the initial `query_0` and `train_0` state for fair comparison.
