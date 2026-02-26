@@ -3,7 +3,23 @@
 **AL-SEG** is an open-source active learning tool for semantic segmentation based on PyTorch. It is built on top of [mmsegmentation](https://github.com/open-mmlab/mmsegmentation), which provides extensive support for various datasets, pre-trained backbones, and state-of-the-art segmentation methods right out of the box.
 
 This repository contains the **official implementation** of the mathod:
-**Conformal Risk Controlled Active Learning (CRC-AL)**, which has been recently submitted. The source code of this project will be publicly available once the paper is accepted.
+**Conformal Risk Controlled Active Learning (CRC-AL)**
+
+```
+@Article{ai6100270,
+AUTHOR = {Erhan, Can and Ure, Nazim Kemal},
+TITLE = {Reducing Annotation Effort in Semantic Segmentation Through Conformal Risk Controlled Active Learning},
+JOURNAL = {AI},
+VOLUME = {6},
+YEAR = {2025},
+NUMBER = {10},
+ARTICLE-NUMBER = {270},
+URL = {https://www.mdpi.com/2673-2688/6/10/270},
+ISSN = {2673-2688},
+ABSTRACT = {Modern semantic segmentation models require extensive pixel-level annotations, creating a significant barrier to practical deployment as labeling a single image can take hours of human effort. Active learning offers a promising way to reduce annotation costs through intelligent sample selection. However, existing methods rely on poorly calibrated confidence estimates, making uncertainty quantification unreliable. We introduce Conformal Risk Controlled Active Learning (CRC-AL), a novel framework that provides statistical guarantees on uncertainty quantification for semantic segmentation, in contrast to heuristic approaches. CRC-AL calibrates class-specific thresholds via conformal risk control, transforming softmax outputs into multi-class prediction sets with formal guarantees. From these sets, our approach derives complementary uncertainty representations: risk maps highlighting uncertain regions and class co-occurrence embeddings capturing semantic confusions. A physics-inspired selection algorithm leverages these representations with a barycenter-based distance metric that balances uncertainty and diversity. Experiments on Cityscapes and PascalVOC2012 show CRC-AL consistently outperforms baseline methods, achieving 95% of fully supervised performance with only 30% of labeled data, making semantic segmentation more practical under limited annotation budgets.},
+DOI = {10.3390/ai6100270}
+}
+```
 
 In addition to our proposed CRC-AL approach, this project also includes Python implementations of several **active learning algorithms** adapted for semantic segmentation outputs:
 
@@ -196,3 +212,7 @@ Results are written under:
 If `--seed` is set, results go to:
 `logs/<config_name>/<experiment_name>/seed_<seed>/<timestamp>/`
 Each cycle creates `query_<k>/` and `train_<k>/` subdirectories.
+
+## Note
+
+No coding agent has been used in this codebase.
