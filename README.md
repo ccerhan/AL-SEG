@@ -4,7 +4,7 @@
 
 This repository contains the **official implementation** of the method:
 
-**Conformal Risk Controlled Active Learning (CRC-AL)**
+[**Conformal Risk Controlled Active Learning (CRC-AL)**](https://www.mdpi.com/2673-2688/6/10/270)
 
 ```
 @Article{ai6100270,
