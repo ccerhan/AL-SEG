@@ -278,4 +278,4 @@ Notes:
 
 ## Note
 
-No coding agent has been used in this codebase.
+No coding agent has been used in this codebase other than `README.md`.
