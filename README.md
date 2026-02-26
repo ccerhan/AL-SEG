@@ -229,6 +229,53 @@ If `--seed` is set, results go to:
 `logs/<config_name>/<experiment_name>/seed_<seed>/<timestamp>/`
 Each cycle creates `query_<k>/` and `train_<k>/` subdirectories.
 
+### Visualize CRC-AL Debug Images ###
+
+To inspect CRC-AL intermediate outputs (image, risk map, labels/prediction, and class co-occurrence matrix), run a **query** job with:
+
+- `query_cfg.type=ConformalRisk`
+- `DEBUG=1` in the environment
+
+```shell
+conda activate AL-SEG
+
+# Project root (use your local clone path)
+ROOT=/Users/yourname/Projects/AL-SEG
+
+# Previous AL cycle outputs you want to inspect (example: cycle 1)
+PREV_RUN=$ROOT/logs/<config_name>/<experiment_name>/seed_42/<timestamp>
+CURRENT_SPLIT=$PREV_RUN/query_1/split.txt
+CHECKPOINT=$PREV_RUN/train_1/best_mIoU_epoch_XX.pth
+
+# Where to write the new queried split
+OUTPUT_SPLIT=$ROOT/logs/debug_query_split.txt
+
+DEBUG=1 python tools/query.py configs/test_cityscapes.py \
+  --use-single-thread \
+  --experiment-name debug-crcal \
+  --work-dir logs \
+  --seed 42 \
+  --num-samples 100 \
+  --output-split "$OUTPUT_SPLIT" \
+  --current-split "$CURRENT_SPLIT" \
+  --checkpoint "$CHECKPOINT" \
+  --options query_cfg.type=ConformalRisk
+```
+
+Path notes:
+
+- `ROOT`: absolute path to this repository on your machine.
+- `PREV_RUN`: one completed experiment run directory (the folder containing `query_*` and `train_*`).
+- `CURRENT_SPLIT`: the split file from the last completed query cycle (for example `query_1/split.txt`).
+- `CHECKPOINT`: the trained model checkpoint from the corresponding training cycle (for example `train_1/best_mIoU_epoch_48.pth`).
+- `OUTPUT_SPLIT`: destination for the newly generated split file (can be any writable `.txt` path).
+
+Notes:
+
+- Debug visualization is currently **interactive** (`cv2.imshow(...)`) and opens a window named `DEBUG`.
+- The query loop pauses on each image (`cv2.waitKey(0)`). Press any key in the OpenCV window to continue to the next sample.
+- This is intended for local desktop debugging (not headless/SSH sessions without display forwarding).
+
 ## Note
 
 No coding agent has been used in this codebase.
