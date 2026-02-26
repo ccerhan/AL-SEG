@@ -22,6 +22,10 @@ DOI = {10.3390/ai6100270}
 }
 ```
 
+![CRC-AL method overview](resources/method.png)
+
+![CRC-AL risk map example](resources/risk-map-example.png)
+
 In addition to our proposed CRC-AL approach, this project also includes Python implementations of several **active learning algorithms** adapted for semantic segmentation outputs:
 
 | Methods                   | References                                                                                                                                          |
