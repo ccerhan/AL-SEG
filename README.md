@@ -89,7 +89,9 @@ Prepare labels using the mmsegmentation converter:
 
 ```shell
 # from data/cityscapes
-python cityscapes.py .
+DATASET_PATH=../cityscapes
+conda activate AL-SEG
+python cityscapes.py $DATASET_PATH
 ```
 
 ### PascalVOC2012 ###
@@ -107,6 +109,7 @@ Build segmentation augmentation splits:
 # from data/VOCdevkit/VOC2012
 DEVKIT_PATH=../../VOCdevkit
 AUG_PATH=benchmark_RELEASE
+conda activate AL-SEG
 python voc_aug.py $DEVKIT_PATH $AUG_PATH
 python voc_merge.py $DEVKIT_PATH
 ```
