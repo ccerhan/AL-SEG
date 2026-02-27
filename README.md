@@ -73,6 +73,14 @@ To confirm that your CUDA or MPS setup is functioning correctly and to run basic
 python scripts/test_device.py
 ```
 
+### Python Path ###
+
+Set the project root on `PYTHONPATH` before running scripts from this repository:
+
+```shell
+export PYTHONPATH="$(pwd):$PYTHONPATH"
+```
+
 ## Download Datasets ##
 
 ### Cityscapes ###
